@@ -1,0 +1,97 @@
+# ═══════════════════════════════════════════════════════════════
+# [STUDIO_NAME] — Caddy configuration (production reference)
+# Target: EU VPS (UpCloud / Hetzner, Helsinki). Caddy obtains and renews
+# TLS certificates automatically (Let's Encrypt / ZeroSSL).
+# Aligned with OWASP Secure Headers and NIS2 "security by design".
+# ═══════════════════════════════════════════════════════════════
+
+{
+	# Global options
+	email ops@[STUDIO_NAME].com
+	servers {
+		protocols h1 h2 h3
+	}
+}
+
+www.[STUDIO_NAME].com {
+	redir https://[STUDIO_NAME].com{uri} permanent
+}
+
+[STUDIO_NAME].com {
+	root * /srv/site/dist
+	encode zstd gzip
+
+	header {
+		# ── Content-Security-Policy ───────────────────────────────
+		# Only our own origin. No inline scripts/styles, no third parties.
+		# frame-ancestors 'none' replaces X-Frame-Options in modern browsers.
+		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+
+		# ── HSTS: force HTTPS for 2 years, incl. subdomains ──────
+		# Add "preload" only after confirming every subdomain serves HTTPS.
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+		# ── Clickjacking (legacy browsers) ───────────────────────
+		X-Frame-Options "DENY"
+
+		# ── MIME sniffing ────────────────────────────────────────
+		X-Content-Type-Options "nosniff"
+
+		# ── Referrer & powerful features ─────────────────────────
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+
+		# ── Cross-origin isolation ───────────────────────────────
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Resource-Policy "same-origin"
+
+		# Hide server banner
+		-Server
+	}
+
+	# Long cache for fingerprinted assets, short for HTML
+	@assets path /assets/* /_astro/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+	@html path *.html / */
+	header @html Cache-Control "no-cache"
+
+	# ── Contact form API → small Node (Hono) service on localhost ─
+	# The service re-validates with a schema (Zod), enforces length limits,
+	# strips HTML, checks honeypot + time trap and forwards by EU email provider.
+	# Nothing is stored in a database (data minimisation).
+	handle /api/contact {
+		# Basic body-size guard (briefing max 4000 chars)
+		request_body {
+			max_size 16KB
+		}
+		reverse_proxy 127.0.0.1:8787
+	}
+	# Rate limiting: use the caddy-ratelimit plugin (e.g. 5 req / 10 min per IP)
+	# or enforce it inside the Node service.
+
+	file_server
+
+	# ── Logs: GDPR — truncate IPs, short retention ───────────────
+	log {
+		output file /var/log/caddy/access.log {
+			roll_size 10MiB
+			roll_keep 5
+			roll_keep_for 336h   # 14 days
+		}
+		format filter {
+			wrap json
+			fields {
+				request>remote_ip ip_mask {
+					ipv4 24
+					ipv6 48
+				}
+				request>client_ip ip_mask {
+					ipv4 24
+					ipv6 48
+				}
+				request>headers>Cookie delete
+				request>headers>User-Agent delete
+			}
+		}
+	}
+}

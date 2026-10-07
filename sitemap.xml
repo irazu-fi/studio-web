@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://[STUDIO_DOMAIN]/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://[STUDIO_DOMAIN]/"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://[STUDIO_DOMAIN]/fi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://[STUDIO_DOMAIN]/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://[STUDIO_DOMAIN]/"/>
+  </url>
+  <url>
+    <loc>https://[STUDIO_DOMAIN]/fi/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://[STUDIO_DOMAIN]/"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://[STUDIO_DOMAIN]/fi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://[STUDIO_DOMAIN]/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://[STUDIO_DOMAIN]/"/>
+  </url>
+  <url>
+    <loc>https://[STUDIO_DOMAIN]/es/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://[STUDIO_DOMAIN]/"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://[STUDIO_DOMAIN]/fi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://[STUDIO_DOMAIN]/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://[STUDIO_DOMAIN]/"/>
+  </url>
+</urlset>

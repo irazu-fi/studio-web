@@ -1,0 +1,6 @@
+# [STUDIO_NAME] — robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://[STUDIO_DOMAIN]/sitemap.xml

@@ -1,0 +1,21 @@
+# Dependencies / builds (phase 2: Astro)
+node_modules/
+dist/
+.astro/
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+CLAUDE.md
+PENDING_UPDATES.md
+README.md

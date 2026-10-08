@@ -206,6 +206,28 @@
     if (typeof dialog.showModal === "function") dialog.showModal();
   }
 
+  // WCAG 2.4.11: expose the banner height so focused elements scroll clear of it
+  const syncBannerHeight = () => {
+    const h = banner.hidden ? 0 : Math.ceil(banner.getBoundingClientRect().height + 16);
+    document.documentElement.style.setProperty("--banner-h", h + "px"); // CSSOM — allowed by CSP
+  };
+  if ("ResizeObserver" in window) new ResizeObserver(syncBannerHeight).observe(banner);
+  new MutationObserver(syncBannerHeight).observe(banner, { attributes: true, attributeFilter: ["hidden"] });
+
+  // WCAG 2.4.11 fallback for browsers that ignore scroll-padding on focus:
+  // nudge the page so the focused element is never hidden under the sticky
+  // header or the cookie banner.
+  const header = $(".site-header");
+  document.addEventListener("focusin", e => {
+    const el = e.target;
+    if (!(el instanceof Element) || el.closest(".site-header, .cookie-banner, dialog")) return;
+    const r = el.getBoundingClientRect();
+    const top = header ? header.getBoundingClientRect().bottom + 8 : 0;
+    const bottom = banner.hidden ? window.innerHeight - 8 : banner.getBoundingClientRect().top - 8;
+    if (r.bottom > bottom) window.scrollBy({ top: r.bottom - bottom, behavior: "instant" });
+    else if (r.top < top) window.scrollBy({ top: r.top - top, behavior: "instant" });
+  });
+
   const existing = STORAGE.get(CONSENT_KEY);
   if (existing && existing.v === 1) applyConsent(existing); else banner.hidden = false;
 
@@ -217,4 +239,15 @@
   });
   dialog.addEventListener("close", () => { if (dialog.returnValue === "save") saveConsent(cAnalytics.checked); });
   $$("[data-open-cookie-settings]").forEach(b => b.addEventListener("click", openSettings));
+
+  /* ── Print: expand every accordion so nothing is lost on paper ── */
+  let openedForPrint = [];
+  window.addEventListener("beforeprint", () => {
+    openedForPrint = rows.filter(r => !r.open);
+    openedForPrint.forEach(r => { r.open = true; });
+  });
+  window.addEventListener("afterprint", () => {
+    openedForPrint.forEach(r => { r.open = false; });
+    openedForPrint = [];
+  });
 })();

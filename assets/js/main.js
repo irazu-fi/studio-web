@@ -221,9 +221,13 @@
   document.addEventListener("focusin", e => {
     const el = e.target;
     if (!(el instanceof Element) || el.closest(".site-header, .cookie-banner, dialog")) return;
+    // <main tabindex="-1"> receives focus on any mouse click inside it; without this
+    // guard its bottom edge (the contact form) would be scrolled into view.
+    if (el === document.getElementById("main")) return;
     const r = el.getBoundingClientRect();
     const top = header ? header.getBoundingClientRect().bottom + 8 : 0;
     const bottom = banner.hidden ? window.innerHeight - 8 : banner.getBoundingClientRect().top - 8;
+    if (r.height > bottom - top) return; // larger than the visible area: nothing sensible to nudge
     if (r.bottom > bottom) window.scrollBy({ top: r.bottom - bottom, behavior: "instant" });
     else if (r.top < top) window.scrollBy({ top: r.top - top, behavior: "instant" });
   });

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   [STUDIO_NAME] — interaction layer (vanilla JS, no dependencies)
+   Irazu — interaction layer (vanilla JS, no dependencies)
    Loaded as an external file so a strict CSP (script-src 'self') works.
    Everything here is progressive enhancement: the page works without JS.
    ═══════════════════════════════════════════════════════════════ */
@@ -243,6 +243,37 @@
   });
   dialog.addEventListener("close", () => { if (dialog.returnValue === "save") saveConsent(cAnalytics.checked); });
   $$("[data-open-cookie-settings]").forEach(b => b.addEventListener("click", openSettings));
+
+  /* ── Navigation: mark the section in view ──────────────────────
+     aria-current="location" tells screen readers which in-page section
+     is current; CSS gives it a visible marker (underline + weight, not
+     colour alone, WCAG 1.4.1). */
+  const navLinks = $$('.primary-nav a[href^="#"]');
+  const navTargets = navLinks.map(a => document.getElementById(a.getAttribute("href").slice(1)));
+  const siteHeader = $(".site-header");
+  let spyQueued = false;
+  const navToggleBtn = $(".nav-toggle");
+  const updateNav = () => {
+    spyQueued = false;
+    // While the mobile menu is open it pushes the page down; keep the last state.
+    if (navToggleBtn && navToggleBtn.getAttribute("aria-expanded") === "true") return;
+    // Header height when closed (the open mobile menu would push the line down).
+    const headerH = siteHeader ? Math.min(siteHeader.getBoundingClientRect().height, 96) : 0;
+    const line = headerH + window.innerHeight * 0.25;
+    let current = -1;
+    navTargets.forEach((sec, i) => { if (sec && sec.getBoundingClientRect().top <= line) current = i; });
+    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    if (atBottom && navTargets.length) current = navTargets.length - 1;
+    navLinks.forEach((a, i) => {
+      if (i === current) a.setAttribute("aria-current", "location");
+      else a.removeAttribute("aria-current");
+    });
+  };
+  if (navLinks.length) {
+    window.addEventListener("scroll", () => { if (!spyQueued) { spyQueued = true; requestAnimationFrame(updateNav); } }, { passive: true });
+    window.addEventListener("resize", updateNav);
+    updateNav();
+  }
 
   /* ── Print: expand every accordion so nothing is lost on paper ── */
   let openedForPrint = [];

@@ -1,6 +1,6 @@
-# [STUDIO_NAME] — robots.txt
+# Irazu — robots.txt
 User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://[STUDIO_DOMAIN]/sitemap.xml
+Sitemap: https://irazu.fi/sitemap.xml

@@ -17,7 +17,7 @@ import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SITE_URL = "https://[STUDIO_DOMAIN]";          // TODO: real domain, no trailing slash
+const SITE_URL = "https://irazu.fi";          // no trailing slash
 const LANGS = [                                       // first = default (served at /)
   { code: "en", dir: "",    label: "EN", name: "English", ogLocale: "en_GB" },
   { code: "fi", dir: "fi/", label: "FI", name: "Suomi",   ogLocale: "fi_FI" },
@@ -52,7 +52,7 @@ const tr = (code, key, fallback) => (DICT[code] && DICT[code][key]) ?? (DICT.en 
 const urlFor = l => `${SITE_URL}/${l.dir}`;
 
 function seoHead(L) {
-  const title = tr(L.code, "meta.title", "[STUDIO_NAME]");
+  const title = tr(L.code, "meta.title", "Irazu");
   const desc = tr(L.code, "meta.description", "");
   const alt = tr(L.code, "og.imageAlt", title);
   const og = `${SITE_URL}/assets/og/og-${L.code}.png`;
@@ -62,11 +62,12 @@ function seoHead(L) {
       {
         "@type": "ProfessionalService",
         "@id": `${SITE_URL}/#organization`,
-        name: "[STUDIO_NAME]",
+        name: "Irazu",
+        alternateName: "IRAZU Systems Atelier",
         url: `${SITE_URL}/`,
-        logo: `${SITE_URL}/assets/apple-touch-icon.png`,
+        logo: `${SITE_URL}/assets/brand/irazu-logo.png`,
         image: `${SITE_URL}/assets/og/og-en.png`,
-        email: "hello@[STUDIO_NAME].com",
+        email: "hello@irazu.fi",
         description: tr("en", "meta.description", ""),
         address: { "@type": "PostalAddress", addressLocality: "Helsinki", addressCountry: "FI" },
         identifier: { "@type": "PropertyValue", propertyID: "Y-tunnus", value: "XXXXXXX-X" },
@@ -82,7 +83,7 @@ function seoHead(L) {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         url: `${SITE_URL}/`,
-        name: "[STUDIO_NAME]",
+        name: "Irazu",
         inLanguage: LANGS.map(l => l.code),
         publisher: { "@id": `${SITE_URL}/#organization` }
       },
@@ -110,7 +111,7 @@ function seoHead(L) {
     `  <meta name="theme-color" content="#F8F8F6">`,
     `  <link rel="apple-touch-icon" href="${p}assets/apple-touch-icon.png">`,
     `  <meta property="og:type" content="website">`,
-    `  <meta property="og:site_name" content="[STUDIO_NAME]">`,
+    `  <meta property="og:site_name" content="Irazu">`,
     `  <meta property="og:title" content="${escAttr(title)}">`,
     `  <meta property="og:description" content="${escAttr(desc)}">`,
     `  <meta property="og:url" content="${urlFor(L)}">`,

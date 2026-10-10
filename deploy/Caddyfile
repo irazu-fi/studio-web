@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════
-# [STUDIO_NAME] — Caddy configuration (production reference)
+# Irazu — Caddy configuration (production reference)
 # Target: EU VPS (UpCloud / Hetzner, Helsinki). Caddy obtains and renews
 # TLS certificates automatically (Let's Encrypt / ZeroSSL).
 # Aligned with OWASP Secure Headers and NIS2 "security by design".
@@ -7,17 +7,17 @@
 
 {
 	# Global options
-	email ops@[STUDIO_NAME].com
+	email ops@irazu.fi
 	servers {
 		protocols h1 h2 h3
 	}
 }
 
-www.[STUDIO_NAME].com {
-	redir https://[STUDIO_NAME].com{uri} permanent
+www.irazu.fi {
+	redir https://irazu.fi{uri} permanent
 }
 
-[STUDIO_NAME].com {
+irazu.fi {
 	root * /srv/site/dist
 	encode zstd gzip
 

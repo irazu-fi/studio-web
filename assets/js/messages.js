@@ -10,7 +10,7 @@ window.MESSAGES = {
     "js.sending": "Sending…",
     "js.sent": "Thank you — your briefing was received. We reply within two working days.",
     "js.prototype": "Prototype mode: validation passed. No data was sent (backend not connected yet).",
-    "js.error": "Something went wrong. Please write to hello@[STUDIO_NAME].com directly.",
+    "js.error": "Something went wrong. Please write to hello@irazu.fi directly.",
     "js.menuOpen": "Menu",
     "js.menuClose": "Close",
     "nav.menu": "Menu"
@@ -26,7 +26,7 @@ window.MESSAGES = {
     "js.sending": "Lähetetään…",
     "js.sent": "Kiitos — kuvauksesi on vastaanotettu. Vastaamme kahden arkipäivän kuluessa.",
     "js.prototype": "Prototyyppitila: validointi onnistui. Tietoja ei lähetetty (taustajärjestelmää ei ole vielä kytketty).",
-    "js.error": "Jokin meni vikaan. Kirjoita suoraan osoitteeseen hello@[STUDIO_NAME].com.",
+    "js.error": "Jokin meni vikaan. Kirjoita suoraan osoitteeseen hello@irazu.fi.",
     "js.menuOpen": "Valikko",
     "js.menuClose": "Sulje"
   },
@@ -41,7 +41,7 @@ window.MESSAGES = {
     "js.sending": "Enviando…",
     "js.sent": "Gracias — hemos recibido tu briefing. Respondemos en un máximo de dos días hábiles.",
     "js.prototype": "Modo prototipo: la validación es correcta. No se ha enviado ningún dato (backend aún no conectado).",
-    "js.error": "Algo ha fallado. Escríbenos directamente a hello@[STUDIO_NAME].com.",
+    "js.error": "Algo ha fallado. Escríbenos directamente a hello@irazu.fi.",
     "js.menuOpen": "Menú",
     "js.menuClose": "Cerrar"
   }

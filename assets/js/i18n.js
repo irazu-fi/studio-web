@@ -13,9 +13,9 @@
 window.I18N = {
   /* Strings used only by JavaScript (validation, status messages). */
   en: {
-    "og.imageAlt": "[STUDIO_NAME] — custom software for container terminals and reefer logistics",
+    "og.imageAlt": "Irazu — custom software for container terminals and reefer logistics",
     "meta.description": "Custom software for container terminals, reefer stowage planning and specialised operations. Built in Helsinki, running in the EU cloud or on your own servers.",
-    "meta.title": "Container Terminal & Reefer Logistics Software | [STUDIO_NAME]",
+    "meta.title": "Container Terminal & Reefer Logistics Software | Irazu",
     "js.isoOk": "Valid — check digit {d} matches.",
     "js.isoBadDigit": "Invalid — expected check digit {d}, got {g}.",
     "js.isoFormat": "Format: 4 letters (owner code + U/J/Z) + 7 digits, e.g. CSQU3054383.",
@@ -25,7 +25,7 @@ window.I18N = {
     "js.sending": "Sending…",
     "js.sent": "Thank you — your briefing was received. We reply within two working days.",
     "js.prototype": "Prototype mode: validation passed. No data was sent (backend not connected yet).",
-    "js.error": "Something went wrong. Please write to hello@[STUDIO_NAME].com directly.",
+    "js.error": "Something went wrong. Please write to hello@irazu.fi directly.",
     "js.menuOpen": "Menu",
     "js.menuClose": "Close"
   },
@@ -37,8 +37,8 @@ window.I18N = {
     "a11y.phases": "Vaiheet",
     "a11y.legalNav": "Oikeudelliset tiedot",
     "a11y.primaryNav": "Päävalikko",
-    "a11y.home": "[STUDIO_NAME] — etusivu",
-    "og.imageAlt": "[STUDIO_NAME] — räätälöityä ohjelmistoa konttiterminaaleille ja kylmälogistiikkaan",
+    "a11y.home": "Irazu — etusivu",
+    "og.imageAlt": "Irazu — räätälöityä ohjelmistoa konttiterminaaleille ja kylmälogistiikkaan",
     "meta.description": "Räätälöityä ohjelmistoa konttiterminaaleille, kylmäalusten lastaussuunnitteluun ja vaativiin toimintoihin. Helsingistä, EU-pilvessä tai omilla palvelimillasi.",
     "craft.v5": "Lomakkeet, kirjautuminen ja kassa suojattu boteilta ja väärinkäytöltä",
     "craft.r5": "Suojaus",
@@ -67,7 +67,7 @@ window.I18N = {
     "label.it": "IT-tiimillesi",
     "spec.v5": "jokainen siirto ja jokainen estetty yritys",
     "spec.v1": "tarkistetaan portilla (ISO 6346)",
-    "meta.title": "Konttiterminaalin ja kylmälogistiikan ohjelmistot | [STUDIO_NAME]",
+    "meta.title": "Konttiterminaalin ja kylmälogistiikan ohjelmistot | Irazu",
     "a11y.skip": "Siirry pääsisältöön",
     "nav.menu": "Valikko",
     "nav.systems": "Järjestelmät",
@@ -76,7 +76,7 @@ window.I18N = {
     "nav.engineering": "Suunnittelu",
     "nav.contact": "Yhteystiedot",
 
-    "hero.eyebrow": "[STUDIO_TAGLINE] — Räätälöity ohjelmistokehitys ja järjestelmäarkkitehtuuri",
+    "hero.eyebrow": "Systems Atelier — Räätälöity ohjelmistokehitys ja järjestelmäarkkitehtuuri",
     "hero.title": "Räätälöityä ohjelmistoa vaativaan logistiikkaan ja erikoistuneisiin toimintoihin.",
     "hero.lede": "Ohjelmistoja konttiterminaaleille, kylmäaluksille ja varastoille, rakennettuna sen mukaan, miten toimintasi oikeasti pyörii. Vähemmän käsin tehtäviä tarkistuksia, vähemmän kalliita virheitä ja täydellinen kirjaus jokaisesta siirrosta.",
     "hero.cta": "Keskustellaan järjestelmästä",
@@ -172,7 +172,8 @@ window.I18N = {
     "form.consent2": "ja hyväksyn, että viestini käsitellään yhteydenottooni vastaamiseksi.",
     "form.submit": "Lähetä kuvaus",
 
-    "footer.tag": "[STUDIO_TAGLINE]",
+    "footer.tag": "Systems Atelier",
+    "footer.inFormation": "(perusteilla oleva yhtiö)",
     "footer.domicile": "Kotipaikka",
     "footer.privacyContact": "Tietosuojayhteys",
     "footer.privacy": "Tietosuojaseloste",
@@ -203,7 +204,7 @@ window.I18N = {
     "js.sending": "Lähetetään…",
     "js.sent": "Kiitos — kuvauksesi on vastaanotettu. Vastaamme kahden arkipäivän kuluessa.",
     "js.prototype": "Prototyyppitila: validointi onnistui. Tietoja ei lähetetty (taustajärjestelmää ei ole vielä kytketty).",
-    "js.error": "Jokin meni vikaan. Kirjoita suoraan osoitteeseen hello@[STUDIO_NAME].com.",
+    "js.error": "Jokin meni vikaan. Kirjoita suoraan osoitteeseen hello@irazu.fi.",
     "js.menuOpen": "Valikko",
     "js.menuClose": "Sulje"
   },
@@ -215,8 +216,8 @@ window.I18N = {
     "a11y.phases": "Fases",
     "a11y.legalNav": "Información legal",
     "a11y.primaryNav": "Navegación principal",
-    "a11y.home": "[STUDIO_NAME] — inicio",
-    "og.imageAlt": "[STUDIO_NAME] — software a medida para terminales de contenedores y logística reefer",
+    "a11y.home": "Irazu — inicio",
+    "og.imageAlt": "Irazu — software a medida para terminales de contenedores y logística reefer",
     "meta.description": "Software a medida para terminales de contenedores, estiba reefer y operaciones especializadas. Desde Helsinki, en la nube de la UE o en tus servidores.",
     "craft.v5": "Formularios, acceso y pago protegidos contra bots y abusos",
     "craft.r5": "Protección",
@@ -245,7 +246,7 @@ window.I18N = {
     "label.it": "Para tu equipo de IT",
     "spec.v5": "cada movimiento y cada intento rechazado",
     "spec.v1": "verificado en el gate (ISO 6346)",
-    "meta.title": "Software para terminales y logística reefer | [STUDIO_NAME]",
+    "meta.title": "Software para terminales y logística reefer | Irazu",
     "a11y.skip": "Saltar al contenido principal",
     "nav.menu": "Menú",
     "nav.systems": "Sistemas",
@@ -254,7 +255,7 @@ window.I18N = {
     "nav.engineering": "Ingeniería",
     "nav.contact": "Contacto",
 
-    "hero.eyebrow": "[STUDIO_TAGLINE] — Ingeniería de software a medida y arquitectura de sistemas",
+    "hero.eyebrow": "Systems Atelier — Ingeniería de software a medida y arquitectura de sistemas",
     "hero.title": "Ingeniería de software a medida para logística compleja y operaciones especializadas.",
     "hero.lede": "Software para terminales de contenedores, buques reefer y almacenes, construido según cómo funciona realmente tu operación. Menos revisiones manuales, menos errores costosos y un registro completo de cada movimiento.",
     "hero.cta": "Hablemos de un sistema",
@@ -350,7 +351,8 @@ window.I18N = {
     "form.consent2": "y acepto que mi mensaje se trate para responder a mi consulta.",
     "form.submit": "Enviar briefing",
 
-    "footer.tag": "[STUDIO_TAGLINE]",
+    "footer.tag": "Systems Atelier",
+    "footer.inFormation": "(en constitución)",
     "footer.domicile": "Domicilio social",
     "footer.privacyContact": "Contacto de privacidad",
     "footer.privacy": "Política de privacidad",
@@ -381,7 +383,7 @@ window.I18N = {
     "js.sending": "Enviando…",
     "js.sent": "Gracias — hemos recibido tu briefing. Respondemos en un máximo de dos días hábiles.",
     "js.prototype": "Modo prototipo: la validación es correcta. No se ha enviado ningún dato (backend aún no conectado).",
-    "js.error": "Algo ha fallado. Escríbenos directamente a hello@[STUDIO_NAME].com.",
+    "js.error": "Algo ha fallado. Escríbenos directamente a hello@irazu.fi.",
     "js.menuOpen": "Menú",
     "js.menuClose": "Cerrar"
   }

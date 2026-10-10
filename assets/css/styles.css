@@ -171,6 +171,14 @@ main:focus { outline: none; }
 }
 .primary-nav a [aria-hidden] { color: var(--ink-muted); transition: color var(--t); }
 .primary-nav a:hover, .primary-nav a:hover [aria-hidden] { color: var(--accent-text); }
+/* Current section (set by main.js): underline in accent + heavier weight,
+   so it does not rely on colour alone. Same marker as the language switch. */
+.primary-nav a[aria-current="location"] { font-weight: 700; }
+.primary-nav a[aria-current="location"] [data-i18n] {
+  text-decoration: underline; text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px; text-underline-offset: .35em;
+}
+.primary-nav a[aria-current="location"] [aria-hidden] { color: var(--accent-text); }
 
 .lang-switch { display: flex; align-items: center; gap: .15rem; font: 400 var(--step--1)/1 var(--font-mono); color: var(--ink-muted); }
 .lang-switch a {
@@ -562,3 +570,8 @@ html { scroll-padding-bottom: calc(var(--banner-h, 0px) + 1rem); }
 }
 /* Extra room at the end of the page while the banner is shown, so the footer can scroll clear of it */
 body { padding-bottom: var(--banner-h, 0px); }
+
+/* ── Brand logo (IRAZU kit, assets/brand/) ─────────────────────── */
+.logo-img { display: block; height: 40px; width: auto; }
+.footer-logo img { display: block; height: 56px; width: auto; }
+@media (max-width: 480px) { .logo-img { height: 34px; } }

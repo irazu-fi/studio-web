@@ -306,25 +306,32 @@ main:focus { outline: none; }
 .data-table th { font-weight: 500; font-size: .9rem; width: 40%; padding-right: 1rem; }
 .data-table td { color: var(--ink-muted); }
 
-.case-visual {
-  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr auto;
-  gap: 1px; background: var(--grid); padding: 1px; align-content: stretch;
-  /* blueprint grid backdrop */
-}
-.plate {
-  min-height: 16rem; background: var(--linen);
-  display: flex; align-items: flex-end; padding: .6rem; position: relative; overflow: hidden;
-}
-.plate span { color: var(--ink-muted); font-size: .7rem; position: relative; }
-/* abstract, non-figurative placeholders built from lines — swap for real artwork */
-.plate::before { content: ""; position: absolute; inset: 14% 14% 22% 14%; border: 1px solid var(--ink); }
-.plate-a::after { content: ""; position: absolute; left: 14%; right: 14%; top: 52%; height: 1px; background: var(--ink); }
-.plate-b::after { content: ""; position: absolute; width: 38%; aspect-ratio: 1; border-radius: 50%; background: var(--accent); left: 31%; top: 28%; }
-.plate-c::after { content: ""; position: absolute; left: 14%; right: 14%; bottom: 22%; height: 30%; background: repeating-linear-gradient(0deg, var(--ink) 0 1px, transparent 1px 7px); }
 .plate-caption {
   grid-column: 1 / -1; background: var(--bone); padding: .75rem 1rem;
   display: flex; justify-content: space-between; color: var(--ink-muted);
 }
+
+/* Case screenshots: two 16:10 desktop shots stacked beside one phone shot, a third
+   desktop shot across, then the caption. The column ratio makes the phone shot as tall
+   as the two stacked shots: 1.73 : 1 for a 390×844 phone (Puerto Limón);
+   --phone-wide uses 1.44 : 1 for a 390×702 phone (Minna Kattelus). */
+.case + .case { margin-top: clamp(2rem, 5vw, 4rem); }
+.case-text > .case-note { margin-top: 1rem; font-size: .75rem; color: var(--ink); }
+.case-it { margin: 1.5rem 0 0; }
+.case-shots {
+  display: grid; grid-template-columns: minmax(0, 1.73fr) minmax(0, 1fr);
+  grid-template-areas: "a m" "b m" "c c" "cap cap";
+  grid-template-rows: auto auto auto 1fr;  /* caption absorbs any extra height of the text column */
+  gap: 1px; background: var(--grid); padding: 1px; align-content: start;
+}
+.case-shots img { display: block; width: 100%; height: auto; background: var(--linen); }
+.case-shots--phone-wide { grid-template-columns: minmax(0, 1.44fr) minmax(0, 1fr); }
+.shot-a { grid-area: a; }
+.shot-b { grid-area: b; }
+.shot-c { grid-area: c; }
+.shot-m { grid-area: m; position: relative; background: var(--linen); }
+.shot-m img { position: absolute; inset: 0; height: 100%; object-fit: cover; object-position: top; }
+.case-shots .plate-caption { grid-area: cap; align-items: flex-start; }
 
 /* ── 5. Roadmap ────────────────────────────────────────────────── */
 .roadmap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
@@ -473,7 +480,6 @@ main:focus { outline: none; }
 
   .case { grid-template-columns: 1fr; }
   .case-text { border-right: 0; border-bottom: 1px solid var(--ink); }
-  .plate { min-height: 0; aspect-ratio: 1 / 1.25; }
 
   .roadmap, .pillars { grid-template-columns: 1fr; }
   .roadmap-item + .roadmap-item, .pillar + .pillar { padding-left: 0; border-left: 0; border-top: 1px solid var(--ink); }

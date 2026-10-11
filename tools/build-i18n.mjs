@@ -42,6 +42,11 @@ const EN_TEXT = {};
 for (const m of source.matchAll(/<(\w+)\b[^>]*\sdata-i18n="([^"]+)"[^>]*>([^<]*)<\/\1>/g)) EN_TEXT[m[2]] = unesc(m[3]);
 const EN_LABEL = {};
 for (const m of source.matchAll(/aria-label="([^"]*)"[^>]*?data-i18n-label="([^"]+)"/g)) EN_LABEL[m[2]] = unesc(m[1]);
+const EN_ALT = {};
+for (const m of source.matchAll(/\salt="([^"]*)"[^>]*?data-i18n-alt="([^"]+)"/g)) EN_ALT[m[2]] = unesc(m[1]);
+if ((source.match(/\sdata-i18n-alt="/g) || []).length !== Object.keys(EN_ALT).length) {
+  throw new Error("Every data-i18n-alt needs an alt=\"…\" before it on the same <img>, with a unique key.");
+}
 
 const totalKeys = (source.match(/\sdata-i18n="/g) || []).length;
 if (Object.keys(EN_TEXT).length === 0 || [...source.matchAll(/<(\w+)\b[^>]*\sdata-i18n="([^"]+)"[^>]*>([^<]*)<\/\1>/g)].length !== totalKeys) {
@@ -155,8 +160,11 @@ function render(L) {
       (all, open, tag, key, text, close) => open + esc(tr(L.code, key, EN_TEXT[key])) + close);
     html = html.replace(/aria-label="([^"]*)"([^>]*?)data-i18n-label="([^"]+)"/g,
       (all, val, mid, key) => `aria-label="${escAttr(tr(L.code, key, EN_LABEL[key]))}"${mid}data-i18n-label="${key}"`);
+    html = html.replace(/\salt="([^"]*)"([^>]*?)data-i18n-alt="([^"]+)"/g,
+      (all, val, mid, key) => ` alt="${escAttr(tr(L.code, key, EN_ALT[key]))}"${mid}data-i18n-alt="${key}"`);
     // Relative paths one level down
     html = html.replace(/(href|src)="(assets\/|privacy\.html|legal\.html)/g, '$1="../$2');
+    html = html.replace(/srcset="([^"]*)"/g, (all, v) => `srcset="${v.replace(/(^|,\s*)assets\//g, "$1../assets/")}"`);
   }
   return html;
 }
@@ -186,6 +194,7 @@ ${LANGS.map(l => `  <url>\n    <loc>${urlFor(l)}</loc>\n    <lastmod>${today}</l
 for (const L of LANGS.slice(1)) {
   const missing = Object.keys(EN_TEXT).filter(k => !(DICT[L.code] && k in DICT[L.code]));
   const missingL = Object.keys(EN_LABEL).filter(k => !(DICT[L.code] && k in DICT[L.code]));
-  if (missing.length || missingL.length) console.warn(`[${L.code}] missing: ${[...missing, ...missingL].join(", ")}`);
+  const missingA = Object.keys(EN_ALT).filter(k => !(DICT[L.code] && k in DICT[L.code]));
+  if (missing.length || missingL.length || missingA.length) console.warn(`[${L.code}] missing: ${[...missing, ...missingL, ...missingA].join(", ")}`);
 }
 console.log(`Built ${LANGS.map(l => "/" + l.dir).join(", ")} · ${Object.keys(EN_TEXT).length} text keys · sitemap.xml · messages.js`);

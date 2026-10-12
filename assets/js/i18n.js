@@ -143,7 +143,7 @@ window.I18N = {
     "craft.v3": "Ostoskori ja kassa keräilijöille suunniteltu",
     "craft.alt1": "Englanninkielinen etusivu: otsikko ”Art that Captures the Nordic Essence” Minna Katteluksen akvarellin päällä.",
     "craft.alt2": "Kauppasivu: lyhyt esittely alkuperäisistä akvarelleista, luokkasuodattimet, lajittelu ja ensimmäiset myynnissä olevat teokset.",
-    "craft.alt3": "Akvarellin ”Tulips” tiedot: tekniikka, vuosi, mitat ja Lisää ostoskoriin -painike.",
+    "craft.alt3": "Akvarellin ”River Vantaa” tiedot: taiteilijan kuvaus, tekniikka, vuosi, mitat ja Lisää ostoskoriin -painike.",
     "craft.alt4": "Etusivu puhelimessa: kielivalitsin, ostoskori ja valikko otsikon yläpuolella.",
     "craft.shotsCap": "Näkymiä kehitteillä olevasta sivustosta · teokset © Minna Kattelus, julkaistu hänen luvallaan",
     "civic.meta": "KONSEPTIEHDOTUS · LIMÓN, COSTA RICA",
@@ -207,6 +207,7 @@ window.I18N = {
     "footer.privacy": "Tietosuojaseloste",
     "footer.legal": "Oikeudelliset tiedot & käyttöehdot",
     "footer.cookies": "Evästeasetukset",
+    "footer.origin": "Suunniteltu ja toteutettu Suomessa",
     "footer.note": "Ei seurantaevästeitä. Fontit palvelimeltamme.",
 
     "cookie.title": "Evästeet",
@@ -349,7 +350,7 @@ window.I18N = {
     "craft.v3": "Carrito y pago pensados para coleccionistas",
     "craft.alt1": "Portada en inglés: el titular «Art that Captures the Nordic Essence» sobre una de las acuarelas de Minna Kattelus.",
     "craft.alt2": "Página de la tienda: una breve presentación de las acuarelas originales, filtros por categoría, orden y las primeras obras a la venta.",
-    "craft.alt3": "Ficha de la acuarela «Tulips»: técnica, año, medidas y un botón para añadir al carrito.",
+    "craft.alt3": "Ficha de la acuarela «River Vantaa»: descripción de la artista, técnica, año, medidas y un botón para añadir al carrito.",
     "craft.alt4": "Portada en el móvil, con el selector de idioma, el carrito y el menú encima del titular.",
     "craft.shotsCap": "Pantallas del sitio en desarrollo · obras © Minna Kattelus, publicadas con su permiso",
     "civic.meta": "PROPUESTA CONCEPTUAL · LIMÓN, COSTA RICA",
@@ -413,6 +414,7 @@ window.I18N = {
     "footer.privacy": "Política de privacidad",
     "footer.legal": "Aviso legal y condiciones",
     "footer.cookies": "Configurar cookies",
+    "footer.origin": "Diseñado y desarrollado en Finlandia",
     "footer.note": "Sin cookies de seguimiento. Fuentes servidas desde nuestro servidor.",
 
     "cookie.title": "Cookies",

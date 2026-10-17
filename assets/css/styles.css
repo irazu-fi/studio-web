@@ -150,7 +150,6 @@ main:focus { outline: none; }
 .link-arrow { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 2px; transition: border-color var(--t), color var(--t); }
 .link-arrow:hover { color: var(--accent-text); border-color: var(--accent-text); }
 
-.link-button { background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
 
 /* ── 1. Header ─────────────────────────────────────────────────── */
 .site-header {
@@ -407,33 +406,9 @@ main:focus { outline: none; }
 .company-id dt { color: var(--ink-muted); }
 .company-id a { color: var(--accent-text); word-break: break-all; }
 .legal-nav li { padding: .4rem 0; border-bottom: 1px solid var(--grid); }
-.legal-nav a, .legal-nav .link-button { color: var(--ink); font-size: .9rem; }
-.legal-nav a:hover, .legal-nav .link-button:hover { color: var(--accent-text); }
+.legal-nav a { color: var(--ink); font-size: .9rem; }
+.legal-nav a:hover { color: var(--accent-text); }
 .footer-base { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-block: 1rem 2rem; border-top: 1px solid var(--ink); color: var(--ink-muted); }
-
-/* ── Cookie banner & dialog ────────────────────────────────────── */
-.cookie-banner {
-  position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 60;
-  max-width: 960px; margin-inline: auto;
-  background: var(--bone); border: 1px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--ink);   /* offset print shadow, not a glow */
-}
-.cookie-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem; align-items: center; padding: 1.25rem 1.5rem; }
-.cookie-title { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
-.cookie-text p { font-size: .9rem; color: var(--ink-muted); max-width: 60ch; }
-.cookie-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
-.cookie-actions .btn { min-width: 8.5rem; }   /* equal weight: same size & style */
-
-.cookie-dialog { border: 1px solid var(--ink); border-radius: 0; padding: 0; max-width: 520px; width: calc(100% - 2rem); background: var(--bone); color: var(--ink); }
-.cookie-dialog::backdrop { background: rgb(18 18 18 / .45); }
-.cookie-dialog-form { padding: 1.75rem; display: grid; gap: 1.25rem; }
-.cookie-dialog-title { font: 400 var(--step-2)/1.1 var(--font-display); }
-.consent-option { border: 0; padding: 0; margin: 0; display: grid; gap: .75rem; }
-.consent-row { display: grid; grid-template-columns: auto 1fr; gap: .75rem; padding: .9rem 0; border-top: 1px solid var(--grid); }
-.consent-row input { width: 20px; height: 20px; margin: .15rem 0 0; accent-color: var(--ink); }
-.consent-row label { font-size: .92rem; color: var(--ink-muted); }
-.consent-row strong { color: var(--ink); font-weight: 600; }
-.cookie-dialog .cookie-actions { justify-content: flex-end; }
 
 /* ── Legal pages ───────────────────────────────────────────────── */
 .legal-page > .wrap { padding-block: clamp(3rem, 7vw, 6rem); }
@@ -488,7 +463,6 @@ main:focus { outline: none; }
 
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
-  .cookie-inner { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
@@ -498,15 +472,12 @@ main:focus { outline: none; }
   .logo { font-size: .85rem; }
   .flow { padding: .75rem; overflow-x: auto; }
   .flow svg { min-width: 560px; }
-  .cookie-banner { left: .5rem; right: .5rem; bottom: .5rem; box-shadow: 4px 4px 0 var(--ink); }
-  .cookie-inner { padding: 1rem; gap: 1rem; }
-  .cookie-actions .btn { flex: 1 1 0; min-width: 0; padding-inline: .5rem; font-size: .72rem; }
   .company-id > div { grid-template-columns: 1fr; }
 }
 
 /* ── Print ─────────────────────────────────────────────────────── */
 @media print {
-  .site-header, .cookie-banner, .cookie-dialog, .contact-form, .iso-check { display: none !important; }
+  .site-header, .contact-form, .iso-check { display: none !important; }
   details > .row-body { display: block !important; }
   body { background: #fff; }
 }
@@ -555,14 +526,12 @@ p, li, dd, dt, h1, h2, h3, label, .eyebrow { hyphens: auto; -webkit-hyphens: aut
 
 /* ── WCAG 2.2 additions ──────────────────────────────────────────
    2.4.11 Focus Not Obscured: keep focused elements clear of the sticky
-   header (scroll-padding-top above) and of the cookie banner while it is
-   shown (--banner-h is set by main.js). */
-html { scroll-padding-bottom: calc(var(--banner-h, 0px) + 1rem); }
+   header (scroll-padding-top above) and of the viewport bottom. */
+html { scroll-padding-bottom: 1rem; }
 
 /* 2.5.8 Target Size (Minimum): every non-inline control ≥ 24×24 px */
 .logo { min-height: 24px; padding-block: .35rem; }
-.field-check input, .consent-row input { width: 24px; height: 24px; }
-.link-button { display: inline-block; min-height: 24px; padding-block: .2rem; }
+.field-check input { width: 24px; height: 24px; }
 .link-arrow { display: inline-block; min-height: 24px; padding-block: .25rem; }
 
 /* Print (EN 301 549 / WCAG 1.4.10-1.4.12 in print): all content readable */
@@ -574,8 +543,6 @@ html { scroll-padding-bottom: calc(var(--banner-h, 0px) + 1rem); }
   .section, .case, .pillar, .roadmap-item, .security-strip li { break-inside: avoid-page; }
   .wrap { border-inline: 0; }
 }
-/* Extra room at the end of the page while the banner is shown, so the footer can scroll clear of it */
-body { padding-bottom: var(--banner-h, 0px); }
 
 /* ── Brand logo (IRAZU kit, assets/brand/) ─────────────────────── */
 .logo-img { display: block; height: 40px; width: auto; }

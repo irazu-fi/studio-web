@@ -72,6 +72,8 @@ irazu.fi {
 	file_server
 
 	# ── Logs: GDPR — truncate IPs, short retention ───────────────
+	# Also the only source of visit statistics (no analytics script):
+	# see deploy/STATS.md.
 	log {
 		output file /var/log/caddy/access.log {
 			roll_size 10MiB

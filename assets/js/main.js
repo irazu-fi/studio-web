@@ -9,10 +9,8 @@
   // Set to true once the /api/contact endpoint exists.
   const BACKEND_READY = false;
   const MIN_FILL_MS = 3000;          // time trap: humans need > 3 s
-  const STORAGE = {
-    get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
-    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage blocked: fine */ } }
-  };
+  // Nothing is stored in the browser (no cookies, no localStorage): this is
+  // why the site needs no consent banner. Keep it that way, or add consent.
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
@@ -184,65 +182,24 @@
     });
   }
 
-  /* ── Cookie consent (Traficom: equal choice, re-openable) ─────── */
-  const CONSENT_KEY = "consent.v1";
-  const banner = $("#cookie-banner"), dialog = $("#cookie-dialog"), cAnalytics = $("#c-analytics");
-
-  function applyConsent(c) {
-    // Load optional services ONLY after opt-in. Example (cookieless, EU-hosted):
-    // if (c.analytics) { const s = document.createElement("script"); s.defer = true;
-    //   s.src = "/js/analytics.js"; document.head.appendChild(s); }
-    document.documentElement.dataset.analytics = c.analytics ? "on" : "off";
-  }
-  function saveConsent(analytics) {
-    const c = { analytics: !!analytics, ts: new Date().toISOString(), v: 1 };
-    STORAGE.set(CONSENT_KEY, c);
-    banner.hidden = true;
-    applyConsent(c);
-  }
-  function openSettings() {
-    const c = STORAGE.get(CONSENT_KEY);
-    cAnalytics.checked = !!(c && c.analytics);
-    if (typeof dialog.showModal === "function") dialog.showModal();
-  }
-
-  // WCAG 2.4.11: expose the banner height so focused elements scroll clear of it
-  const syncBannerHeight = () => {
-    const h = banner.hidden ? 0 : Math.ceil(banner.getBoundingClientRect().height + 16);
-    document.documentElement.style.setProperty("--banner-h", h + "px"); // CSSOM — allowed by CSP
-  };
-  if ("ResizeObserver" in window) new ResizeObserver(syncBannerHeight).observe(banner);
-  new MutationObserver(syncBannerHeight).observe(banner, { attributes: true, attributeFilter: ["hidden"] });
-
   // WCAG 2.4.11 fallback for browsers that ignore scroll-padding on focus:
   // nudge the page so the focused element is never hidden under the sticky
-  // header or the cookie banner.
+  // header.
   const header = $(".site-header");
   document.addEventListener("focusin", e => {
     const el = e.target;
-    if (!(el instanceof Element) || el.closest(".site-header, .cookie-banner, dialog")) return;
+    if (!(el instanceof Element) || el.closest(".site-header, dialog")) return;
     // <main tabindex="-1"> receives focus on any mouse click inside it; without this
     // guard its bottom edge (the contact form) would be scrolled into view.
     if (el === document.getElementById("main")) return;
     const r = el.getBoundingClientRect();
     const top = header ? header.getBoundingClientRect().bottom + 8 : 0;
-    const bottom = banner.hidden ? window.innerHeight - 8 : banner.getBoundingClientRect().top - 8;
+    const bottom = window.innerHeight - 8;
     if (r.height > bottom - top) return; // larger than the visible area: nothing sensible to nudge
     if (r.bottom > bottom) window.scrollBy({ top: r.bottom - bottom, behavior: "instant" });
     else if (r.top < top) window.scrollBy({ top: r.top - top, behavior: "instant" });
   });
 
-  const existing = STORAGE.get(CONSENT_KEY);
-  if (existing && existing.v === 1) applyConsent(existing); else banner.hidden = false;
-
-  banner.addEventListener("click", e => {
-    const b = e.target.closest("[data-consent]"); if (!b) return;
-    if (b.dataset.consent === "accept") saveConsent(true);
-    else if (b.dataset.consent === "reject") saveConsent(false);
-    else openSettings();
-  });
-  dialog.addEventListener("close", () => { if (dialog.returnValue === "save") saveConsent(cAnalytics.checked); });
-  $$("[data-open-cookie-settings]").forEach(b => b.addEventListener("click", openSettings));
 
   /* ── Navigation: mark the section in view ──────────────────────
      aria-current="location" tells screen readers which in-page section

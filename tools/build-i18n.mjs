@@ -162,8 +162,11 @@ function render(L) {
       (all, val, mid, key) => `aria-label="${escAttr(tr(L.code, key, EN_LABEL[key]))}"${mid}data-i18n-label="${key}"`);
     html = html.replace(/\salt="([^"]*)"([^>]*?)data-i18n-alt="([^"]+)"/g,
       (all, val, mid, key) => ` alt="${escAttr(tr(L.code, key, EN_ALT[key]))}"${mid}data-i18n-alt="${key}"`);
-    // Relative paths one level down
-    html = html.replace(/(href|src)="(assets\/|privacy\.html|legal\.html)/g, '$1="../$2');
+    // Relative paths one level down. privacy.html and legal.html exist in every language
+    // folder (fi/, es/), so those links stay relative to the language folder.
+    html = html.replace(/(href|src)="(assets\/)/g, '$1="../$2');
+    // In Finnish the "(Tietosuojaseloste)" / "(Käyttöehdot)" hints would repeat the link text.
+    if (L.code === "fi") html = html.replace(/ <span lang="fi">\((Tietosuojaseloste|Käyttöehdot)\)<\/span>/g, "");
     html = html.replace(/srcset="([^"]*)"/g, (all, v) => `srcset="${v.replace(/(^|,\s*)assets\//g, "$1../assets/")}"`);
   }
   return html;

@@ -340,7 +340,7 @@ main:focus { outline: none; }
 .rm-id { color: var(--ink-muted); }
 .rm-title { font: 400 var(--step-2)/1.15 var(--font-display); margin-bottom: .75rem; }
 .roadmap-item > p { color: var(--ink-muted); max-width: 48ch; }
-.phases { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2rem; counter-reset: ph; }
+.phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2rem; counter-reset: ph; }
 .phases li {
   counter-increment: ph; position: relative; padding-top: 1.1rem; color: var(--ink-muted);
   border-top: 1px solid var(--grid); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em;
@@ -450,29 +450,42 @@ main:focus { outline: none; }
   .row-domain { grid-area: domain; }
   .row-status { grid-area: status; }
   .row-toggle { grid-area: toggle; }
-  .row-cols { grid-template-columns: 1fr; }
+  .row-cols { grid-template-columns: minmax(0, 1fr); }
   .row-cols > div, .row-cols > div + div { padding: 1.25rem 0 0; border-left: 0; }
 
-  .case { grid-template-columns: 1fr; }
+  .case { grid-template-columns: minmax(0, 1fr); } /* minmax(0,…): content can't widen the column past the viewport */
   .case-text { border-right: 0; border-bottom: 1px solid var(--ink); }
+  /* The table must fit its column: long words (e.g. Finnish compounds) wrap inside the cell
+     instead of widening the table. */
+  .data-table { table-layout: fixed; }
+  .data-table th, .data-table td { overflow-wrap: break-word; hyphens: auto; }
 
-  .roadmap, .pillars { grid-template-columns: 1fr; }
+  .roadmap, .pillars { grid-template-columns: minmax(0, 1fr); }
   .roadmap-item + .roadmap-item, .pillar + .pillar { padding-left: 0; border-left: 0; border-top: 1px solid var(--ink); }
   .roadmap-item, .pillar { padding-right: 0; }
   .pillar-no { margin-bottom: 1.25rem; }
 
-  .contact-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: minmax(0, 1fr); }
+  .footer-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 560px) {
-  .section-head { grid-template-columns: 1fr; gap: .5rem; }
+  .section-head { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
   .section-intro { grid-column: 1; }
   .header-inner { gap: .75rem; }
   .logo { font-size: .85rem; }
   .flow { padding: .75rem; overflow-x: auto; }
   .flow svg { min-width: 560px; }
-  .company-id > div { grid-template-columns: 1fr; }
+  .company-id > div { grid-template-columns: minmax(0, 1fr); }
+  /* Phones: parameter tables stack label above value (the 40 % label column is too narrow for
+     Finnish words). Table semantics are kept with explicit ARIA roles in the HTML. */
+  .data-table, .data-table tbody, .data-table tr, .data-table th, .data-table td { display: block; width: auto; }
+  .data-table tr { border-top: 1px solid var(--grid); padding: .7rem 0; }
+  .data-table tr:last-child { border-bottom: 1px solid var(--grid); }
+  .data-table th, .data-table td, .data-table tr:last-child th, .data-table tr:last-child td { border: 0; padding: 0; }
+  .data-table th { margin-bottom: .3rem; }
+  /* Four phase labels don't fit in one row on phones (e.g. Finnish "ARKKITEHTUURI"): 2 × 2 */
+  .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.75rem; }
 }
 
 /* ── Print ─────────────────────────────────────────────────────── */
@@ -503,7 +516,7 @@ main:focus { outline: none; }
 .sec-title { color: var(--ink); font-weight: 600; margin-bottom: .35rem; }
 .sec-title::before { content: counter(sec, decimal-leading-zero) " "; font: 500 .72rem var(--font-mono); color: var(--accent-text); margin-right: .25rem; }
 @media (max-width: 900px) {
-  .security-strip ul { grid-template-columns: 1fr; }
+  .security-strip ul { grid-template-columns: minmax(0, 1fr); }
   .security-strip li:nth-child(even) { padding-left: 0; border-left: 0; }
   .security-strip li + li { border-top: 1px solid var(--grid); padding-top: 1rem; }
 }

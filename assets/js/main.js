@@ -6,7 +6,7 @@
 (() => {
   "use strict";
 
-  // Set to true once the /api/contact endpoint exists.
+  // Set to true once services/contact is running behind Caddy (deploy/CONTACT.md, step 4).
   const BACKEND_READY = false;
   const MIN_FILL_MS = 3000;          // time trap: humans need > 3 s
   // Nothing is stored in the browser (no cookies, no localStorage): this is

@@ -1,0 +1,52 @@
+# ═══════════════════════════════════════════════════════════════
+# Irazu — contact form API (services/contact), behind Caddy on 127.0.0.1:8787
+# Install: /etc/systemd/system/irazu-contact.service  → see deploy/CONTACT.md
+# ═══════════════════════════════════════════════════════════════
+[Unit]
+Description=Irazu contact form API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/contact
+ExecStart=/usr/bin/node /srv/contact/dist/src/server.js
+# Secrets (SMTP key) live only here: root:root, mode 0600. Read by systemd before
+# privileges are dropped, so the service user never needs access to the file.
+EnvironmentFile=/etc/irazu/contact.env
+Environment=NODE_ENV=production
+Restart=on-failure
+RestartSec=2s
+
+# ── Least privilege (ISO 27001 A.8.2 / A.8.9 style hardening) ──────
+DynamicUser=yes
+UMask=0077
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+# Node's JIT needs writable+executable memory, so MemoryDenyWriteExecute stays off.
+MemoryMax=256M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

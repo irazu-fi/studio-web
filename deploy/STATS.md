@@ -16,7 +16,7 @@ Legal basis: legitimate interest (GDPR art. 6(1)(f)), stated in privacy.html §3
 is published: the report is generated outside the web root and read over SSH.
 
 ```sh
-sudo apt install goaccess
+# goaccess is installed by deploy/provision-vm.sh
 mkdir -p ~/stats
 
 # Weekly report (current + rotated logs, gz or plain)
@@ -53,8 +53,10 @@ scp irazu-vm:stats/irazu-2026-W45.html .
 - Search Console (Google) and Bing Webmaster Tools add search queries and
   impressions without adding anything to the site.
 
-## Not verified yet
+## Verified
 
-- That GoAccess `--log-format=CADDY` parses lines whose `User-Agent` header was
-  deleted by the log filter. Test with the first real logs on the VM; if it
-  fails, use a custom `--log-format` JSON mapping without the user-agent field.
+- 2026-10-19: GoAccess 1.8.1 (the Ubuntu 24.04 package) with `--log-format=CADDY`
+  parsed every line of a log written by this Caddyfile on Caddy 2.10.2 (IPs masked,
+  User-Agent and Cookie removed), plain and gzipped together, with the command above.
+  The report contained no IP address. Check again once with the first real logs on
+  the VM.

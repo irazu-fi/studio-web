@@ -1,10 +1,9 @@
 # ═══════════════════════════════════════════════════════════════
 # Irazu — Caddy configuration (production reference)
-# Target: EU VPS (UpCloud / Hetzner, Helsinki). Caddy obtains and renews
+# Target: Oracle Cloud (OCI) VM, EU region. Caddy obtains and renews
 # TLS certificates automatically (Let's Encrypt / ZeroSSL).
 # Aligned with OWASP Secure Headers and NIS2 "security by design".
 # ═══════════════════════════════════════════════════════════════
-
 {
 	# Global options
 	email ops@irazu.fi
@@ -28,8 +27,11 @@ irazu.fi {
 		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
 
 		# ── HSTS: force HTTPS for 2 years, incl. subdomains ──────
-		# Add "preload" only after confirming every subdomain serves HTTPS.
-		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+		# "preload" deliberately absent: with it in the header anyone can submit
+		# irazu.fi to the browsers' preload list, which takes months to undo.
+		# Add it (and submit at hstspreload.org) only once every subdomain is
+		# confirmed to serve HTTPS for good.
+		Strict-Transport-Security "max-age=63072000; includeSubDomains"
 
 		# ── Clickjacking (legacy browsers) ───────────────────────
 		X-Frame-Options "DENY"
@@ -49,25 +51,29 @@ irazu.fi {
 		-Server
 	}
 
-	# Long cache for fingerprinted assets, short for HTML
-	@assets path /assets/* /_astro/*
-	header @assets Cache-Control "public, max-age=31536000, immutable"
-	@html path *.html / */
-	header @html Cache-Control "no-cache"
+	# Caching. Asset names are NOT fingerprinted (styles.css, main.js…), so CSS, JS
+	# and HTML are revalidated on every visit (cheap 304 via ETag): a new release
+	# shows up at once. Fonts never change under the same name; images rarely do.
+	@fonts path /assets/fonts/*
+	header @fonts Cache-Control "public, max-age=31536000, immutable"
+	@images path /assets/img/* /assets/brand/* /assets/og/* /assets/*.svg /assets/*.png
+	header @images Cache-Control "public, max-age=604800"
+	@revalidate path *.html / */ /assets/css/* /assets/js/* /robots.txt /sitemap.xml
+	header @revalidate Cache-Control "no-cache"
 
 	# ── Contact form API → small Node (Hono) service on localhost ─
-	# The service re-validates with a schema (Zod), enforces length limits,
-	# strips HTML, checks honeypot + time trap and forwards by EU email provider.
-	# Nothing is stored in a database (data minimisation).
+	# services/contact (see deploy/CONTACT.md): same-origin + JSON only, strict
+	# Zod schema with length limits, honeypot + time trap, rate limits, then one
+	# plain-text email via Brevo SMTP (TLS). Nothing is stored (data minimisation).
 	handle /api/contact {
 		# Basic body-size guard (briefing max 4000 chars)
 		request_body {
-			max_size 16KB
+			max_size 16KiB
 		}
 		reverse_proxy 127.0.0.1:8787
 	}
-	# Rate limiting: use the caddy-ratelimit plugin (e.g. 5 req / 10 min per IP)
-	# or enforce it inside the Node service.
+	# Rate limiting is enforced inside the service (5 per IP / 10 min, 40 per hour
+	# in total). Caddy passes the client IP in X-Forwarded-For (default behaviour).
 
 	file_server
 
@@ -78,7 +84,7 @@ irazu.fi {
 		output file /var/log/caddy/access.log {
 			roll_size 10MiB
 			roll_keep 5
-			roll_keep_for 336h   # 14 days
+			roll_keep_for 336h # 14 days
 		}
 		format filter {
 			wrap json

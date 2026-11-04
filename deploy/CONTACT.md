@@ -78,10 +78,10 @@ Node.js 22, Caddy with `deploy/Caddyfile`, the systemd unit and the release help
    `bash deploy/publish-site.sh ubuntu@<IP>`.
 5. **Check one real message** (from a phone, not the server):
    - the page shows the "Thank you" message in its language;
-   - in Zoho, "Show original": SPF/DKIM/DMARC **pass**, DKIM `d=irazu.fi`;
+   - in Tuta, open the message headers: SPF/DKIM/DMARC **pass**, DKIM `d=irazu.fi`;
    - the message is `text/plain` and links are **not** rewritten by Brevo (no click/open
      tracking). If they are, disable tracking in Brevo before going live;
-   - Zoho did not quarantine it (sender name "Irazu" is on the protected list for hello@).
+   - it is in the inbox, not in the spam folder.
 6. Rotating the key: generate a new one in Brevo, update `/etc/irazu/contact.env`,
    `sudo systemctl restart irazu-contact`, then delete the old key in Brevo.
 

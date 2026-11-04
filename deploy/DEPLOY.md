@@ -2,7 +2,7 @@
 
 One small VM runs everything: **Caddy** (HTTPS, static site, security headers, access
 logs with masked IPs) and the **contact service** (`services/contact`, on 127.0.0.1:8787).
-Email (Zoho) and its DNS records are untouched by any of this.
+Email (Tuta) and its DNS records are untouched by any of this.
 
 ```
 deploy/
@@ -70,7 +70,9 @@ Add, TTL 3600:
 | `irazu.fi.` | A | `<reserved IP>` |
 | `www.irazu.fi.` | A | `<reserved IP>` |
 
-**Do not touch** the MX, SPF (`v=spf1`), `zmail._domainkey`, `_dmarc` or Brevo records.
+**Do not touch** the MX, SPF (`v=spf1`), DKIM (`s1`, `s2`, `brevo1`, `brevo2`, `default` `._domainkey`),
+`_dmarc`, `t-verify`, `brevo-code` or MTA-STS records. `mta-sts.irazu.fi` is a CNAME to Tuta:
+do not create an A record with that name and do not serve it from Caddy.
 Check with `nslookup irazu.fi 1.1.1.1` until it answers the new IP.
 
 ### 6. Provision the VM (PC, Git Bash, repo root)
